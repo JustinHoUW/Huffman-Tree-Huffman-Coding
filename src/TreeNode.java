@@ -1,19 +1,20 @@
 public class TreeNode implements Comparable<TreeNode> {
-    Object TreeNode;
     int priority;
+    Character elem;
 
     // the TreeNode is created with the specified priority value.
     TreeNode(int priority) {
         this.priority = priority;
         priority = 0;
 
-        TreeNode = new TreeNode(priority);
+        TreeNode tree = new TreeNode(priority);
     }
 
     // the TreeNode is initialized with the specified elem and priority values.
     public TreeNode(Character elem, int priority) {
+        this.elem = elem;
         this.priority = priority;
-        TreeNode = new TreeNode(elem, priority);
+        TreeNode tree = new TreeNode(elem, priority);
     }
 
 
