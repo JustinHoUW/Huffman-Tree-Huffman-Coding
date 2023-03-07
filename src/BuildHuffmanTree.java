@@ -2,34 +2,20 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class BuildHuffmanTree extends Queue {
-
+    private static HuffmanTree htree;
+    private static TreeNode ltreeNode;
+    private static TreeNode rtreeNode;
+    private static TreeNode node;
 
     // utilizes a Queue to construct and deliver the root node of the finished HuffmanTree.
     static TreeNode buildTreeQueue(HashMap<Character, Integer>
                                            freqTbl, Queue<TreeNode> q) throws Exception {
-        /*
-        // Loop over the input text's characters
-        // Every character either adds a new entry to the map for it OR increases the priority value
-        for (char character: text.toCharArray()) {
-        Integer entry = freqTbl.get(character); // Make new entry in the map with Integer value
-            treeNode.priority = entry;
 
 
-            // insert in the HashMap a specific key and the value
-        // If key already EXISTS, increment int value, if NOT value doesn't change
-            if (entry != null) {
-                freqTbl.put(character, entry + 1);
-            }
-            else {
-                freqTbl.put(character, 1);
-            }
-
-            for (int i = 0; i < freqTbl.size(); i++) {
-                q.enqueue();
-            }
-
-        }
-         */
+        node = new TreeNode(null, 0);
+        ltreeNode = new TreeNode(null, 0);
+        rtreeNode = new TreeNode(null, 0);
+        htree = new HuffmanTree(ltreeNode, rtreeNode);
 
         // iterate through the Hash table and add it to the queue
         // each element in the returned set is a Map entry
@@ -37,18 +23,26 @@ public class BuildHuffmanTree extends Queue {
             // Follow constructor of TreeNode class
             q.enqueue(new TreeNode(entry.getKey(), entry.getValue()));
         }
-
-        // create a new Huffman tree
-        HuffmanTree htree = null;
-
+        // Initialize priority of new HuffmanTree root
+        htree.root.priority = 0;
 
         while (q.count > 1) {
-            // With the root priority
-            // FROM the left child priority (dequeue) and the right child priority (dequeue)
-            htree.leftNode = q.dequeue();
-            htree.rightNode = q.dequeue();
+            // Initialize New node
+            node = new TreeNode(null, 0);
 
-            // Add to queue once new Huffman tree has left and right child priority
+            // GET Left Child Priority Value (dequeue) and Right Child Priority Value (dequeue)
+            node.left = q.dequeue();
+
+            node.right = q.dequeue();
+
+            // Initialize New Huffman Tree
+            htree = new HuffmanTree(node.left, node.right);
+
+            // Add up the priority values of BOTH Left child and Right child
+            // and add that to Root Priority
+            htree.root.priority = node.left.priority + node.right.priority;
+
+            // Add root to queue once Huffman tree has left and right child priority
             q.enqueue(htree.root);
         }
 
@@ -56,13 +50,101 @@ public class BuildHuffmanTree extends Queue {
         return htree.root;
     }
 
-    //Utilizes a PriorityQueue to construct and deliver the root node of the finished HuffmanTree.
-    static  TreeNode  buildTreePQ  (HashMap<Character,  Integer>
-                                            freqTbl, PriorityQueue<TreeNode> pq) {
+    // utilizes a PriorityQueue to construct and deliver the root node of the finished HuffmanTree.
+    static TreeNode buildTreePQ(HashMap<Character, Integer>
+                                        freqTbl, PriorityQueue<TreeNode> pq) throws Exception {
+
+        node = new TreeNode(null, 0);
+        ltreeNode = new TreeNode(null, 0);
+        rtreeNode = new TreeNode(null, 0);
+        htree = new HuffmanTree(ltreeNode, rtreeNode);
+
+        // iterate through the Hash table and add it to the Priority Queue
+        // each element in the returned set is a Map entry
+        for (Map.Entry<Character, Integer> entry : freqTbl.entrySet()) {
+            // Follow constructor of TreeNode class
+            pq.insert(new TreeNode(entry.getKey(), entry.getValue()));
+        }
+        // Initialize priority of new HuffmanTree root
+        htree.root.priority = 0;
+
+        while (pq.count > 1) {
+            // Initialize New node
+            node = new TreeNode(null, 0);
+
+            // GET Left Child Priority Value (dequeue) and Right Child Priority Value (dequeue)
+            node.left = pq.remove();
+
+            node.right = pq.remove();
+
+            // Initialize New Huffman Tree
+            htree = new HuffmanTree(node.left, node.right);
+
+            // Add up the priority values of BOTH Left child and Right child
+            // and add that to Root Priority
+            htree.root.priority = node.left.priority + node.right.priority;
+
+            // Add root to queue once Huffman tree has left and right child priority
+            pq.insert(htree.root);
+        }
+
+        // Returns the root node of the final HuffmanTree
+        return htree.root;
 
     }
 
+    static void encodeTraversal(TreeNode root, String code,
+                                HashMap<Character, String> encodTbl) {
 
+        // If element of root isn't node
+        if (root.elem != null) {
+            // Store the element in the HashMap
+            // Along with the Code assigned
+            encodTbl.put(root.elem, code);
+
+        } else {
+            // If we go to left then add "0" to the code.
+            encodeTraversal(root.left, code + "0", encodTbl);
+
+            // If we go to the right add "1" to the code.
+            encodeTraversal(root.right, code + "1", encodTbl);
+
+        }
+        /*
+        // Check for leaf node
+        if (root.left == null && root.right == null) {
+            // If element is null
+            // Don't consider for Huffman Codes IGNORE
+            if (root.elem == null) {
+                return;
+            }
+            // Doesn't add any value to String since Leaf Node
+            // Store the encoded information as a String in the given
+            // HashMap along with the Code assigned
+            encodTbl.put(root.elem, code);
+            // Recursive call repeats till we hit leaf node then exit out of method
+            return;
+        }
+
+        // Recursive calls for the tree's left and right child
+        if (root.left != null) {
+            // Adding "0" to String if we move to the left child
+            code += 0;
+            encodeTraversal(root.left, code, encodTbl);
+        }
+
+        if (root.right != null) {
+            // Adding "1" to String if we move to the right child
+            code += 1;
+            encodeTraversal(root.right, code, encodTbl);
+        }
+        }
+        */
+
+    }
 }
+
+
+
 
 
