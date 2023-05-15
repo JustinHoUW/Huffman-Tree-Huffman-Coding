@@ -1,4 +1,5 @@
 public class TreeNode implements Comparable<TreeNode> {
+    // Each node contains left and right child
     TreeNode left;
     TreeNode right;
     int priority;
@@ -29,6 +30,7 @@ public class TreeNode implements Comparable<TreeNode> {
             return -1;
         }
         else {
+            // If priority values equal return 0
             return 0;
         }
     }

@@ -110,36 +110,6 @@ public class BuildHuffmanTree extends Queue {
             encodeTraversal(root.right, code + "1", encodTbl);
 
         }
-        /*
-        // Check for leaf node
-        if (root.left == null && root.right == null) {
-            // If element is null
-            // Don't consider for Huffman Codes IGNORE
-            if (root.elem == null) {
-                return;
-            }
-            // Doesn't add any value to String since Leaf Node
-            // Store the encoded information as a String in the given
-            // HashMap along with the Code assigned
-            encodTbl.put(root.elem, code);
-            // Recursive call repeats till we hit leaf node then exit out of method
-            return;
-        }
-
-        // Recursive calls for the tree's left and right child
-        if (root.left != null) {
-            // Adding "0" to String if we move to the left child
-            code += 0;
-            encodeTraversal(root.left, code, encodTbl);
-        }
-
-        if (root.right != null) {
-            // Adding "1" to String if we move to the right child
-            code += 1;
-            encodeTraversal(root.right, code, encodTbl);
-        }
-        }
-        */
 
     }
 }

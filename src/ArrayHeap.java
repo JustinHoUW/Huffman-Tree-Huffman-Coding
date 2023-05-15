@@ -122,10 +122,10 @@ public class ArrayHeap<T extends Comparable<T>> {
             // Use compareTo, returns POSITIVE value if larger than other, NEGATIVE if less, and 0 if EQUALS
 
             outerloop:
-            while (count >= 1) {
+            while (count >= 1 ) {
                 // Signifies leaf node OR Heapify isn't needed
-                // break out of loop
-                if (heap[leftChild] == null || heap[useCompareCurr].compareTo(heap[leftChild]) <= 0) {
+
+                if (heap[leftChild] == null || (heap[useCompareCurr].compareTo(heap[leftChild]) <= 0)) {
                     break; // No need to swap since leaf node FORCE BREAK
                 } else {
                     while (heap[useCompareCurr].compareTo(heap[leftChild]) >= 1
@@ -134,7 +134,7 @@ public class ArrayHeap<T extends Comparable<T>> {
                             // if right child already null and left child greater than parent
                             // Swap with left child then break out out the loop
                             swap(heap, curr, leftChild);
-                            break outerloop; // Break out nested loop after swapping with left child
+                            break outerloop; // Break loop after swapping with left child
                         }
                         // While current node is greater than its childs AND
                         // IF Right child is greater than its Left child
@@ -155,7 +155,7 @@ public class ArrayHeap<T extends Comparable<T>> {
                             // break if left child greater or equal than count
                             // Can't heapify anymore
                             if (leftChild >= count) {
-                                break;
+                                break outerloop;
                             }
                         } else {
                             // swap curr with the child that has the least element out of the two (Right Child)
@@ -174,7 +174,7 @@ public class ArrayHeap<T extends Comparable<T>> {
                             // break if left child greater or equal than count
                             // Can't heapify anymore
                             if (leftChild >= count) {
-                                break;
+                                break outerloop;
                             }
                         }
                     }
